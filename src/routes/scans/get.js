@@ -31,9 +31,9 @@ async function scans(req, res, next) {
 
 /**
  * Get list of all scans that match the given array of BSSIDs
- * @route GET /scans/get/matchBSSID
+ * @route POST /scans/get/matchBSSID
  * @group scans - Operations about scans
- * @param {array} BSSIDs - array of BSSID string to use to retrieve matches in the scans collection
+ * @param {Array} BSSIDs - array of BSSID string to use to retrieve matches in the scans collection
  * @returns {Response.model} 200 - Success
  * @returns {Error.model} 403 - Unauthorized * @security JWT
  */

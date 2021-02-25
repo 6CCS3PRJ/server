@@ -56,7 +56,7 @@ async function reloadFeatureCache(req, res, next) {
  * Get the cached array of GEOJson features with counts of hotspots per feature
  * @route GET /wifis/get/features
  * @group wifis - Operations about hotspots
- * @returns {Response.model} 200 - array fo features
+ * @returns {Response.model} 200 - array of features
  */
 async function features(req, res, next) {
     try {
