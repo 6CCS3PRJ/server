@@ -39,7 +39,6 @@ const newScans = async (req, res, next) => {
                         if (err) {
                             throw err;
                         } else {
-
                             //todo remove comment
                             // let uploads = []
                             // const faker = require("faker")

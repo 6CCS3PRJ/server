@@ -5,7 +5,7 @@ const Upload = require("../../models/upload");
 function getGetRoutes() {
     const router = express.Router();
     router.get("/", scans);
-    router.get("/uploadStats", uploadStats)
+    router.get("/uploadStats", uploadStats);
     router.post("/matchBSSID", matchBSSID);
     return router;
 }
@@ -17,16 +17,15 @@ function getGetRoutes() {
  * @security JWT
  */
 async function uploadStats(req, res, next) {
-    const DAYS_FILTER = 14
+    const DAYS_FILTER = 14;
     try {
         const uploads = await Upload.find({
-            "timestamp":
-            {
-                $gte: (new Date((new Date()).getTime() - (DAYS_FILTER * 24 * 60 * 60 * 1000)))
-            }
+            timestamp: {
+                $gte: new Date(new Date().getTime() - DAYS_FILTER * 24 * 60 * 60 * 1000),
+            },
         }).lean();
 
-        const dateMap = {}
+        const dateMap = {};
 
         for (let i = 0; i < uploads.length; i++) {
             const scan = uploads[i];
@@ -39,12 +38,12 @@ async function uploadStats(req, res, next) {
             }
         }
 
-        const result = []
+        const result = [];
 
-        Object.keys(dateMap).forEach(timestamp => {
+        Object.keys(dateMap).forEach((timestamp) => {
             const amount = dateMap[timestamp];
-            const date = new Date(timestamp)
-            result.push({ date, amount })
+            const date = new Date(timestamp);
+            result.push({ date, amount });
         });
 
         result.sort(function (a, b) {
