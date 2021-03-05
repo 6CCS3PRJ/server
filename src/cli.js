@@ -47,7 +47,7 @@ const cli = readline.createInterface({
     terminal: false,
 });
 
-cli.setPrompt("stdin@TMAppServer >\n");
+cli.setPrompt("stdin@prj-server >\n");
 
 // Print initial help
 setTimeout(() => {
