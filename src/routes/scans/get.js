@@ -1,13 +1,61 @@
 const express = require("express");
 const Scan = require("../../models/scan");
+const Upload = require("../../models/upload");
 
 function getGetRoutes() {
     const router = express.Router();
     router.get("/", scans);
+    router.get("/uploadStats", uploadStats)
     router.post("/matchBSSID", matchBSSID);
     return router;
 }
 
+/**
+ * Get stats about uploaded scans
+ * @route GET /scans/get/uploadStats
+ * @group uploads - Operations about uploads
+ * @security JWT
+ */
+async function uploadStats(req, res, next) {
+    const DAYS_FILTER = 14
+    try {
+        const uploads = await Upload.find({
+            "timestamp":
+            {
+                $gte: (new Date((new Date()).getTime() - (DAYS_FILTER * 24 * 60 * 60 * 1000)))
+            }
+        }).lean();
+
+        const dateMap = {}
+
+        for (let i = 0; i < uploads.length; i++) {
+            const scan = uploads[i];
+            const timestamp = new Date(scan.timestamp);
+            timestamp.setHours(0, 0, 0, 0);
+            if (dateMap[timestamp]) {
+                dateMap[timestamp]++;
+            } else {
+                dateMap[timestamp] = 1;
+            }
+        }
+
+        const result = []
+
+        Object.keys(dateMap).forEach(timestamp => {
+            const amount = dateMap[timestamp];
+            const date = new Date(timestamp)
+            result.push({ date, amount })
+        });
+
+        result.sort(function (a, b) {
+            return new Date(a.date) - new Date(b.date);
+        });
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 /**
  * Get list of all scans
  * @route GET /scans/get/

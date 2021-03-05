@@ -20,7 +20,7 @@ function getGetRoutes() {
  */
 async function reloadFeatureCache(req, res, next) {
     try {
-        const result = await Wifi.find().limit(100000).lean(); //todo: remove limit
+        const result = await Wifi.find().limit(2000).lean(); //todo: remove limit
         const geoJson = await axios.get(process.env.ENGLAND_GEOJSON_URL);
         const features = getFeatures(geoJson.data);
         const cliProgress = require("cli-progress");
@@ -50,7 +50,7 @@ async function reloadFeatureCache(req, res, next) {
             if (err) {
                 throw err;
             } else {
-                res.status(200).json(features);
+                res.status(200).json({ message: "success" });
             }
         });
     } catch (error) {

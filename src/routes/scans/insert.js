@@ -1,6 +1,6 @@
 const express = require("express");
 const Scan = require("../../models/scan");
-const util = require("util");
+const Upload = require("../../models/upload");
 const jwt = require("jsonwebtoken");
 function getInsertRoutes() {
     const router = express.Router();
@@ -39,6 +39,21 @@ const newScans = async (req, res, next) => {
                         if (err) {
                             throw err;
                         } else {
+
+                            //todo remove comment
+                            // let uploads = []
+                            // const faker = require("faker")
+                            // for (let i = 0; i < 10315; i++) {
+
+                            //     uploads.push({
+                            //         timestamp : faker.date.between(new Date(new Date().getTime() - (14 * 24 * 60 * 60 * 1000)), new Date())
+                            //     })
+
+                            // }
+
+                            // Upload.collection.insertMany(uploads);
+                            //for stats
+                            Upload.collection.insertOne({ timestamp: new Date() });
                             res.status(200).send({
                                 message: "success",
                             });
