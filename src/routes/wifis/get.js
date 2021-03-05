@@ -20,11 +20,16 @@ function getGetRoutes() {
  */
 async function reloadFeatureCache(req, res, next) {
     try {
-        const result = await Wifi.find().limit(20000).lean(); //todo: remove limit
+        const result = await Wifi.find().limit(100000).lean(); //todo: remove limit
         const geoJson = await axios.get(process.env.ENGLAND_GEOJSON_URL);
         const features = getFeatures(geoJson.data);
+        const cliProgress = require("cli-progress");
+        const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+        bar1.start(result.length, 0);
+
         for (let i = 0; i < result.length; i++) {
             let hotspot = result[i];
+            bar1.increment();
             if (!hotspot) {
                 continue;
             }
@@ -37,6 +42,7 @@ async function reloadFeatureCache(req, res, next) {
                 }
             }
         }
+        bar1.stop();
 
         let featureInsert = features.map((f) => ({ feature: f, hotspotCount: f.hotspotCount }));
         await Feature.collection.drop();

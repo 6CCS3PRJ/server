@@ -2,7 +2,6 @@ const fs = require("fs");
 const faker = require("faker");
 const yargs = require("yargs");
 const cliProgress = require("cli-progress");
-
 const getRandomScan = () => {
     return JSON.stringify({
         d: true,
@@ -16,13 +15,13 @@ const generate = (count, filename = "test.json") => {
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
     progressBar.start(count, 0);
 
-    const start = '{"scans": [';
+    const start = " [";
     fs.writeFileSync(filename, start);
     for (i = 1; i < count; i++) {
         fs.appendFileSync(filename, getRandomScan() + ",");
         progressBar.increment();
     }
-    fs.appendFileSync(filename, getRandomScan() + "]}");
+    fs.appendFileSync(filename, getRandomScan() + "]");
     progressBar.increment();
 
     progressBar.stop();

@@ -25,11 +25,10 @@ const rateLimiter = require("express-rate-limit")({
 });
 
 function startServer({ port = process.env.PORT || 5000 } = {}) {
-
     if (process.env.NODE_ENV !== "production") {
         initialiseSwagger();
     }
-    
+
     app.use(rateLimiter);
 
     app.use(helmet());
@@ -70,8 +69,6 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
 
     app.use(express.json({ limit: "100mb" }));
     app.use(express.urlencoded({ extended: true, limit: "100mb" }));
-
-
 
     // Prevents 304 responses / disables cache control
     app.disable("etag");
@@ -129,7 +126,7 @@ process.on("uncaughtException", (err, origin) => {
     logger.error(`Uncaught Exception: origin:${origin}, error: ${err}, trace: ${err.stack}`);
     logger.warn(
         `Server may be unstable after an uncaught exception. Please restart server ` +
-        `by typing: 'stop', 'exit', and then 'npm start'.`
+            `by typing: 'stop', 'exit', and then 'npm start'.`
     );
 });
 

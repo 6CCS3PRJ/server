@@ -10,5 +10,5 @@ const genericErrorMiddleware = async (err, req, res, next) => {
 };
 
 module.exports = {
-    genericErrorMiddleware
-}
+    genericErrorMiddleware,
+};
