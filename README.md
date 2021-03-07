@@ -118,6 +118,38 @@ Example:
  ssh -i "key.pem" ubuntu@ec2-ip-address.eu-west-2.compute.amazonaws.com
 ```
 
+#### Install mongodb
+
+
+Import the public key used by the package management system
+
+```zsh
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+```
+
+Add sources
+
+```zsh
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+```
+Install MongoDB
+
+```zsh
+sudo apt update && sudo apt install -y mongodb-org
+```
+
+Start and verify the service
+
+```zsh
+sudo systemctl start mongod
+sudo systemctl status mongod
+```
+
+Enable service restart on every reboot
+```zsh
+sudo systemctl enable mongod
+```
+
 #### Install Node.js/npm using nvm
 
 Install Node Version Manager
