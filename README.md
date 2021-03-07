@@ -68,6 +68,7 @@ Installation for this project are described for linux. For other operating syste
 
 It is suggested to install Node.js and npm using [nvm](https://github.com/nvm-sh/nvm#install--update-script).
 
+## Installation
 ### Local installation (fast, on Linux)
 
 To install, first clone the repository
