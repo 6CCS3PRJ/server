@@ -32,12 +32,12 @@
 </ul>
 </li>
 <li><a href="#installation">Installation</a><ul>
-<li><a href="#local-installation--fast--on-linux-">Local installation (fast, on Linux)</a></li>
-<li><a href="#installation-on-an-aws-ec2-instance--ubuntu-">Installation on an AWS EC2 instance (Ubuntu)</a><ul>
+<li><a href="#local-installation">Local installation</a></li>
+<li><a href="#installation-on-an-aws-ec2-instance">Installation on an AWS EC2 instance</a><ul>
 <li><a href="#connect-to-ec2-instance">Connect to EC2 instance</a></li>
 <li><a href="#install-mongodb">Install mongodb</a></li>
-<li><a href="#install-nodejs-npm-using-nvm">Install Node.js/npm using nvm</a></li>
-<li><a href="#clone-repository---with-github-cli-">Clone repository  (with GitHub CLI)</a></li>
+<li><a href="#install-node-and-npm-using-nvm">Install Node and npm using nvm</a></li>
+<li><a href="#clone-repository-with-github-cli">Clone repository with Github CLI</a></li>
 <li><a href="#initialise-repository">Initialise Repository</a></li>
 <li><a href="#install-pm2">Install PM2</a></li>
 <li><a href="#start-application">Start application</a></li>
@@ -49,6 +49,8 @@
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#contact">Contact</a></li>
+</ul>
+
 </ul>
 
 </details>
@@ -79,7 +81,7 @@ Installation for this project are described for linux. For other operating syste
 It is suggested to install Node.js and npm using [nvm](https://github.com/nvm-sh/nvm#install--update-script).
 
 ## Installation
-### Local installation (fast, on Linux)
+### Local installation
 
 To install, first clone the repository
 
@@ -107,7 +109,7 @@ npm run dev
 
 The server will start at [http://localhost:4863](http://localhost:4863)
 
-### Installation on an AWS EC2 instance (Ubuntu)
+### Installation on an AWS EC2 instance
 
 This guide assumes you'll have started the EC2 instance already. For a guide on how to do it please refer to [AWS's Documentation](https://docs.aws.amazon.com/quickstarts/latest/vmlaunch/step-1-launch-instance.html)
 
@@ -160,7 +162,7 @@ Enable service restart on every reboot
 sudo systemctl enable mongod
 ```
 
-#### Install Node.js/npm using nvm
+#### Install Node and npm using nvm
 
 Install Node Version Manager
 
@@ -179,7 +181,7 @@ Install latest version of Node.js and npm
 nvm install node
 ```
 
-#### Clone repository  (with GitHub CLI)
+#### Clone repository with Github CLI
 
 Debian / Linux:
 
