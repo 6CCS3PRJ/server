@@ -25,22 +25,32 @@
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
+ <ul>
+<li><a href="#about-the-project">About The Project</a><ul>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+</ul>
+</li>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#local-installation--fast--on-linux-">Local installation (fast, on Linux)</a></li>
+<li><a href="#installation-on-an-aws-ec2-instance--ubuntu-">Installation on an AWS EC2 instance (Ubuntu)</a><ul>
+<li><a href="#connect-to-ec2-instance">Connect to EC2 instance</a></li>
+<li><a href="#install-mongodb">Install mongodb</a></li>
+<li><a href="#install-nodejs-npm-using-nvm">Install Node.js/npm using nvm</a></li>
+<li><a href="#clone-repository---with-github-cli-">Clone repository  (with GitHub CLI)</a></li>
+<li><a href="#initialise-repository">Initialise Repository</a></li>
+<li><a href="#install-pm2">Install PM2</a></li>
+<li><a href="#start-application">Start application</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
 </details>
 
 
