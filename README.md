@@ -95,6 +95,8 @@ Then download all dependencies
 npm install
 ```
 
+Install MongoDB using <a href="#install-mongodb">the same steps as found in the AWS EC2 installation guide</a>
+
 Finally, start the server using 
 
 ```zsh
