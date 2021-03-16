@@ -96,13 +96,7 @@ const expressPinoConfig = {
 
         res: (res) => {
             const req = res.raw.req;
-            if (req.originalUrl === "/api/misc/get/heartbeat") {
-                return undefined;
-            }
-
             const data = {
-                userSub: isProduction ? req.user?.sub : undefined,
-                userData: isProduction ? req.user?.userData : undefined,
                 code: res.statusCode,
                 statusMessage: res.raw?.statusMessage,
                 message: res.raw?.message,
