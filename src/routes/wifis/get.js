@@ -1,5 +1,6 @@
 const express = require("express");
 const Wifi = require("../../models/wifi");
+const Scan = require("../../models/scan");
 const Feature = require("../../models/feature");
 const d3 = require("d3");
 const axios = require("axios").default;
@@ -20,31 +21,80 @@ function getGetRoutes() {
  */
 async function reloadFeatureCache(req, res, next) {
     try {
-        const result = await Wifi.find().limit(2000).lean(); //todo: remove limit
-        const geoJson = await axios.get(process.env.ENGLAND_GEOJSON_URL);
+        //todo: remove limit
+        let accessPoints = await Wifi.find().limit(2000).lean(); //todo: remove limit
+        accessPoints = accessPoints.map(ap => {
+            ap.bssid = ap.bssid.toLowerCase().split('')
+                .reduce((a, e, i) => a + e + (i % 2 === 1 && i !== ap.bssid.length - 1 ? ':' : ''), '')//make AABBCCDDEE in aa:bb:cc:dd:ee
+            return ap;
+        }
+        )
+        const bssids = accessPoints.map(ap => ap.bssid)
+        const scanResult = await Scan.find({ b: { $in: bssids } }).lean()
+
+        const scans = []
+
+        for (let i = 0; i < scanResult.length; i++) {
+            const scan = scanResult[i];
+            const accessPointResult = accessPoints.filter(ap => ap.bssid === scan.b)
+            if (accessPointResult.length !== 1) {
+                continue;
+            }
+            let accessPoint = accessPointResult[0];
+            if (accessPoint) {
+                scan.lat = accessPoint.lat;
+                scan.lng = accessPoint.lng;
+                scans.push(scan);
+            }
+        }
+
+        const geoJson = await axios.get(process.env.GEOJSON_URL);
         const features = getFeatures(geoJson.data);
         const cliProgress = require("cli-progress");
         const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-        bar1.start(result.length, 0);
+        bar1.start(scans.length, 0);
 
-        for (let i = 0; i < result.length; i++) {
-            let hotspot = result[i];
+        for (let i = 0; i < scans.length; i++) {
+            let scan = scans[i];
             bar1.increment();
-            if (!hotspot) {
+            if (!scan) {
                 continue;
             }
-            for (let j = 0; j < features.length; j++) {
+            for (let j = features.length - 1; j >= 0; j--) { //running backwards in order to use push instead of unshift
                 const county = features[j];
-                if (d3.geoContains(county, [hotspot?.lng, hotspot?.lat])) {
-                    county.hotspotCount =
-                        county.hotspotCount === undefined ? 1 : county.hotspotCount + 1;
+                if (d3.geoContains(county, [scan?.lng, scan?.lat])) {
+                    if (features.indexOf(county) !== features.length - 1) {
+                        //moving county at the end of the array. It's likely that the next feature will be the same one
+                        features.push(features.splice(features.indexOf(county), 1)[0]);
+                    }
+                    features[Math.floor(Math.random() * features.length)].positivesCount =
+                    features[Math.floor(Math.random() * features.length)].positivesCount === undefined ? 1 : features[Math.floor(Math.random() * features.length)].positivesCount + 1;
+                    break;
+                }
+            }
+        }
+        bar1.stop();
+        bar1.start(accessPoints.length, 0);
+        for (let i = 0; i < accessPoints.length; i++) {
+            let ap = accessPoints[i];
+            bar1.increment();
+            if (!ap) {
+                continue;
+            }
+            for (let j = features.length - 1; j >= 0; j--) { //running backwards in order to use push instead of unshift
+                const county = features[j];
+                if (d3.geoContains(county, [ap?.lng, ap?.lat])) {
+                    //moving county at the end of the array. It's likely that the next feature will be the same one
+                    features.push(features.splice(features.indexOf(county), 1)[0]);
+                    county.accessPointsCount =
+                        county.accessPointsCount === undefined ? 1 : county.accessPointsCount + 1;
                     break;
                 }
             }
         }
         bar1.stop();
 
-        let featureInsert = features.map((f) => ({ feature: f, hotspotCount: f.hotspotCount }));
+        let featureInsert = features.map((f) => ({ feature: f, positivesCount: f.positivesCount, accessPointsCount: f.accessPointsCount }));
         await Feature.collection.drop();
         Feature.collection.insertMany(featureInsert, (err, data) => {
             if (err) {
@@ -68,7 +118,8 @@ async function features(req, res, next) {
     try {
         let features = await Feature.find().lean();
         features = features.map((f) => {
-            f.feature.hotspotCount = f.hotspotCount;
+            f.feature.positivesCount = f.positivesCount;
+            f.feature.accessPointsCount = f.accessPointsCount;
             return f.feature;
         });
 
