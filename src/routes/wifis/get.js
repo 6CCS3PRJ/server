@@ -68,7 +68,7 @@ async function reloadFeatureCache(req, res, next) {
                         features.push(features.splice(features.indexOf(county), 1)[0]);
                     }
                     features[Math.floor(Math.random() * features.length)].positivesCount =
-                    features[Math.floor(Math.random() * features.length)].positivesCount === undefined ? 1 : features[Math.floor(Math.random() * features.length)].positivesCount + 1;
+                        features[Math.floor(Math.random() * features.length)].positivesCount === undefined ? 1 : (features[Math.floor(Math.random() * features.length)].positivesCount + 1) ?? 1;
                     break;
                 }
             }
@@ -94,9 +94,18 @@ async function reloadFeatureCache(req, res, next) {
         }
         bar1.stop();
 
-        let featureInsert = features.map((f) => ({ feature: f, positivesCount: f.positivesCount, accessPointsCount: f.accessPointsCount }));
-        await Feature.collection.drop();
-        Feature.collection.insertMany(featureInsert, (err, data) => {
+        let featureInsert = features.map((f) => ({ feature: f, 
+            positivesCount: f.positivesCount ?? 0,
+             accessPointsCount: f.accessPointsCount ?? 0  }));
+        try { 
+            await Feature.collection.drop();
+         }
+        catch (err){
+            if(err.codeName !== "NamespaceNotFound"){
+                throw err;
+            }
+        }
+        Feature.insertMany(featureInsert, (err, data) => {
             if (err) {
                 throw err;
             } else {
