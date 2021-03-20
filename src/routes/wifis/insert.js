@@ -26,7 +26,6 @@ const newScans = async (req, res, next) => {
             });
         } else {
             try {
-                //todo: remove dummy value from inserted data
                 Scan.collection.insertMany(req.body.scans, (err, data) => {
                     if (err) {
                         throw err;
