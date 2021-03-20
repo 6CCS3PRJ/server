@@ -23,20 +23,24 @@ async function reloadFeatureCache(req, res, next) {
     try {
         //todo: remove limit
         let accessPoints = await Wifi.find().limit(2000).lean(); //todo: remove limit
-        accessPoints = accessPoints.map(ap => {
-            ap.bssid = ap.bssid.toLowerCase().split('')
-                .reduce((a, e, i) => a + e + (i % 2 === 1 && i !== ap.bssid.length - 1 ? ':' : ''), '')//make AABBCCDDEE in aa:bb:cc:dd:ee
+        accessPoints = accessPoints.map((ap) => {
+            ap.bssid = ap.bssid
+                .toLowerCase()
+                .split("")
+                .reduce(
+                    (a, e, i) => a + e + (i % 2 === 1 && i !== ap.bssid.length - 1 ? ":" : ""),
+                    ""
+                ); //make AABBCCDDEE in aa:bb:cc:dd:ee
             return ap;
-        }
-        )
-        const bssids = accessPoints.map(ap => ap.bssid)
-        const scanResult = await Scan.find({ b: { $in: bssids } }).lean()
+        });
+        const bssids = accessPoints.map((ap) => ap.bssid);
+        const scanResult = await Scan.find({ b: { $in: bssids } }).lean();
 
-        const scans = []
+        const scans = [];
 
         for (let i = 0; i < scanResult.length; i++) {
             const scan = scanResult[i];
-            const accessPointResult = accessPoints.filter(ap => ap.bssid === scan.b)
+            const accessPointResult = accessPoints.filter((ap) => ap.bssid === scan.b);
             if (accessPointResult.length !== 1) {
                 continue;
             }
@@ -60,14 +64,16 @@ async function reloadFeatureCache(req, res, next) {
             if (!scan) {
                 continue;
             }
-            for (let j = features.length - 1; j >= 0; j--) { //running backwards in order to use push instead of unshift
+            for (let j = features.length - 1; j >= 0; j--) {
+                //running backwards in order to use push instead of unshift
                 const county = features[j];
                 if (d3.geoContains(county, [scan?.lng, scan?.lat])) {
                     if (features.indexOf(county) !== features.length - 1) {
                         //moving county at the end of the array. It's likely that the next feature will be the same one
                         features.push(features.splice(features.indexOf(county), 1)[0]);
                     }
-                    county.positivesCount = county.positivesCount === undefined ? 1 : (county.positivesCount + 1) ?? 1;
+                    county.positivesCount =
+                        county.positivesCount === undefined ? 1 : county.positivesCount + 1 ?? 1;
                     break;
                 }
             }
@@ -80,13 +86,16 @@ async function reloadFeatureCache(req, res, next) {
             if (!ap) {
                 continue;
             }
-            for (let j = features.length - 1; j >= 0; j--) { //running backwards in order to use push instead of unshift
+            for (let j = features.length - 1; j >= 0; j--) {
+                //running backwards in order to use push instead of unshift
                 const county = features[j];
                 if (d3.geoContains(county, [ap?.lng, ap?.lat])) {
                     //moving county at the end of the array. It's likely that the next feature will be the same one
                     features.push(features.splice(features.indexOf(county), 1)[0]);
                     county.accessPointsCount =
-                        county.accessPointsCount === undefined ? 1 : county.accessPointsCount + 1 ?? 0;
+                        county.accessPointsCount === undefined
+                            ? 1
+                            : county.accessPointsCount + 1 ?? 0;
                     break;
                 }
             }
@@ -96,12 +105,11 @@ async function reloadFeatureCache(req, res, next) {
         let featureInsert = features.map((f) => ({
             feature: f,
             positivesCount: f.positivesCount ?? 0,
-            accessPointsCount: f.accessPointsCount ?? 0
+            accessPointsCount: f.accessPointsCount ?? 0,
         }));
         try {
             await Feature.collection.drop();
-        }
-        catch (err) {
+        } catch (err) {
             if (err.codeName !== "NamespaceNotFound") {
                 throw err;
             }

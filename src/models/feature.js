@@ -9,10 +9,10 @@ const featureSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
-    accessPointsCount : {
+    accessPointsCount: {
         type: Number,
         required: false,
-    }
+    },
 });
 
 module.exports = mongoose.model("feature", featureSchema);

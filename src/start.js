@@ -124,7 +124,7 @@ process.on("uncaughtException", (err, origin) => {
     logger.error(`Uncaught Exception: origin:${origin}, error: ${err}, trace: ${err.stack}`);
     logger.warn(
         `Server may be unstable after an uncaught exception. Please restart server ` +
-        `by typing: 'stop', 'exit', and then 'npm start'.`
+            `by typing: 'stop', 'exit', and then 'npm start'.`
     );
 });
 
