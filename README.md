@@ -32,6 +32,7 @@
 </ul>
 </li>
 <li><a href="#installation">Installation</a><ul>
+<li><a href="#docker-installation">Docker installation</a></li>
 <li><a href="#local-installation">Local installation</a></li>
 <li><a href="#installation-on-an-aws-ec2-instance">Installation on an AWS EC2 instance</a><ul>
 <li><a href="#connect-to-ec2-instance">Connect to EC2 instance</a></li>
@@ -81,9 +82,22 @@ Installation for this project are described for linux. For other operating syste
 It is suggested to install Node.js and npm using [nvm](https://github.com/nvm-sh/nvm#install--update-script).
 
 ## Installation
+
+### Docker installation 
+
+This installation is the fastest, but requires [docker](https://docs.docker.com/engine/install/#server) and [docker-compose](https://docs.docker.com/compose/install/#prerequisites).
+
+Once installed run
+
+```zsh
+docker-compose up --build
+```
+
+And that's it! The server is running on `localhost:4683`
+
 ### Local installation
 
-To install, first clone the repository
+This installation is suggested for development.
 
 ```zsh
 git clone https://github.com/6CCS3PRJ/server.git

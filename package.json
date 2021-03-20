@@ -54,17 +54,17 @@
         "pm2": "^4.5.5",
         "shallow-clone": "^3.0.1",
         "tldts-experimental": "^5.6.82",
-        "topojson-client": "^3.1.0"
-    },
-    "devDependencies": {
-        "cli-progress": "^3.9.0",
-        "express-swagger-generator": "^1.1.17",
-        "faker": "^5.1.0",
-        "husky": "^5.0.4",
-        "node-readme": "^0.1.9",
-        "nodemon": "^2.0.6",
+        "topojson-client": "^3.1.0",
         "prettier": "^2.2.1",
         "pretty-quick": "^3.1.0",
-        "yargs": "^16.1.1"
+        "nodemon": "^2.0.6",
+        "yargs": "^16.1.1",
+        "express-swagger-generator": "^1.1.17",
+        "cli-progress": "^3.9.0"
+    },
+    "devDependencies": {
+        "faker": "^5.1.0",
+        "husky": "^5.0.4",
+        "node-readme": "^0.1.9"
     }
 }
