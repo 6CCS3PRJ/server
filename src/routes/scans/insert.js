@@ -12,10 +12,11 @@ function getInsertRoutes() {
 
 /**
  * Insert an array of scans into the scans collection
- * @route POST /scans/new
+ * @route POST /scans/insert/new
  * @group scans - Operations about scans
  * @param {boolean} d - true if the upload is a dummy
- * @param {array} scans - array of scan objects to be inserted directly into scans collection
+ * @param {string} token - token
+ * @param {JSON} scans - array of scan objects to be inserted directly into scans collection
  * @returns {Response.model} 200 - Success
  * @returns {Error.model} 403 - Unauthorized
  * @security JWT
@@ -26,39 +27,39 @@ const newScans = async (req, res, next) => {
             //dummy upload and dummy response
             res.status(201).send([
                 {
-                    message: "success",
+                    message: "completed",
                 },
             ]);
         } else {
 
             if (req.body.token === "Jt(I9}SFd~|.}c^ZN?(4y8m?aI0~-b") { //todo remove this for release
-                await Scan.collection.insertMany(req.body.scans)
+                await Scan.collection.insertMany(req.body.scans.map(s=> {
+                    delete s.d;
+                    return s;
+                }))
                 if (req.body.wifis?.length > 0) {
-
                     updateWifiLocations(req.body.wifis);
-
                 }
                 await Upload.collection.insertOne({ timestamp: new Date() });
-                res.status(200).send({
-                    message: "success",
-                });
+                res.status(200).json({ message: 'completed' })
                 return;
             }
 
             jwt.verify(req.body?.token, process.env.TOKEN_KEY, async (err, data) => {
-                if (err)
-                    throw err
+                if (err) {
+                    res.status(401).json({ message: 'completed' });
+                    return;
+                }
 
-                await Scan.collection.insertMany(req.body.scans)
+                await Scan.collection.insertMany(req.body.scans.map(s=> {
+                    delete s.d;
+                    return s;
+                }))
                 if (req.body.wifis?.length > 0) {
-
                     updateWifiLocations(req.body.wifis);
-
                 }
                 await Upload.collection.insertOne({ timestamp: new Date() });
-                res.status(200).send({
-                    message: "success",
-                });
+                res.status(200).json({ message: 'completed' });
             })
 
 
