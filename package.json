@@ -1,6 +1,6 @@
 {
     "name": "prj-server",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "REST API Node.js and MongoDB server for ingestion of contact tracing data.",
     "main": "index.js",
     "scripts": {
