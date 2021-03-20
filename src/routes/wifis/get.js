@@ -4,6 +4,7 @@ const Scan = require("../../models/scan");
 const Feature = require("../../models/feature");
 const d3 = require("d3");
 const axios = require("axios").default;
+const cliProgress = require("cli-progress");
 const { feature } = require("topojson-client");
 
 function getGetRoutes() {
@@ -21,8 +22,7 @@ function getGetRoutes() {
  */
 async function reloadFeatureCache(req, res, next) {
     try {
-        //todo: remove limit
-        let accessPoints = await Wifi.find().limit(2000).lean(); //todo: remove limit
+        let accessPoints = await Wifi.find().lean();
         accessPoints = accessPoints.map((ap) => {
             ap.bssid = ap.bssid
                 .toLowerCase()
@@ -54,13 +54,12 @@ async function reloadFeatureCache(req, res, next) {
 
         const geoJson = await axios.get(process.env.GEOJSON_URL);
         const features = getFeatures(geoJson.data);
-        const cliProgress = require("cli-progress");
-        const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-        bar1.start(scans.length, 0);
+        const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+        progressBar.start(scans.length, 0);
 
         for (let i = 0; i < scans.length; i++) {
             let scan = scans[i];
-            bar1.increment();
+            progressBar.increment();
             if (!scan) {
                 continue;
             }
@@ -78,11 +77,11 @@ async function reloadFeatureCache(req, res, next) {
                 }
             }
         }
-        bar1.stop();
-        bar1.start(accessPoints.length, 0);
+        progressBar.stop();
+        progressBar.start(accessPoints.length, 0);
         for (let i = 0; i < accessPoints.length; i++) {
             let ap = accessPoints[i];
-            bar1.increment();
+            progressBar.increment();
             if (!ap) {
                 continue;
             }
@@ -100,7 +99,7 @@ async function reloadFeatureCache(req, res, next) {
                 }
             }
         }
-        bar1.stop();
+        progressBar.stop();
 
         let featureInsert = features.map((f) => ({
             feature: f,
@@ -149,7 +148,7 @@ async function features(req, res, next) {
 
 /**
  * Get all features in a GEOJson geography object
- * @param {object} geographies the GEOJson geography object
+ * @param {Object} geographies the GEOJson geography object
  */
 function getFeatures(geographies) {
     const isTopology = geographies.type === "Topology";

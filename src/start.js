@@ -1,3 +1,9 @@
+/**
+ * Most of the content of this file and the middleware files that are imported
+ * have been built for another project. They are the mutual product of my work and
+ * Luka Kralj's.
+ */
+
 const express = require("express");
 require("express-async-errors");
 const mongoose = require("mongoose");
