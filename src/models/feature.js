@@ -5,10 +5,14 @@ const featureSchema = new mongoose.Schema({
         type: Object,
         required: true,
     },
-    count: {
+    positivesCount: {
         type: Number,
-        required: true,
+        required: false,
     },
+    accessPointsCount : {
+        type: Number,
+        required: false,
+    }
 });
 
 module.exports = mongoose.model("feature", featureSchema);
