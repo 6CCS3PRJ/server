@@ -1,6 +1,6 @@
 {
     "name": "prj-server",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "REST API Node.js and MongoDB server for ingestion of contact tracing data.",
     "main": "index.js",
     "scripts": {
@@ -57,7 +57,6 @@
         "topojson-client": "^3.1.0",
         "prettier": "^2.2.1",
         "pretty-quick": "^3.1.0",
-        "nodemon": "^2.0.6",
         "yargs": "^16.1.1",
         "express-swagger-generator": "^1.1.17",
         "cli-progress": "^3.9.0"
