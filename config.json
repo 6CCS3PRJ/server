@@ -1,4 +1,4 @@
 {
-    "pinoLogLevel": "debug",
-    "expressPinoLogLevel": "debug"
+  "pinoLogLevel": "debug",
+  "expressPinoLogLevel": "debug"
 }

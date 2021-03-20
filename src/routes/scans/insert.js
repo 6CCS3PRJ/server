@@ -4,6 +4,7 @@ const Upload = require("../../models/upload");
 const Wifi = require("../../models/wifi");
 
 const jwt = require("jsonwebtoken");
+
 function getInsertRoutes() {
     const router = express.Router();
     router.post("/new", newScans);
@@ -101,6 +102,7 @@ const updateWifiLocations = async (wifis) => {
         })
     );
 };
+
 // https://gist.github.com/tlhunter/0ea604b77775b3e7d7d25ea0f70a23eb
 function averageGeolocation(wifis) {
     if (wifis.length === 1) {

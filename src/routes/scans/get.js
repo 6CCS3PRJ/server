@@ -55,6 +55,7 @@ async function uploadStats(req, res, next) {
         res.status(500).json({ error: error.message });
     }
 }
+
 /**
  * Get list of all scans
  * @route GET /scans/get/
