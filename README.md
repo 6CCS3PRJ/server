@@ -109,46 +109,6 @@ Then download all dependencies
 npm install
 ```
 
-Install MongoDB using <a href="#install-mongodb">the same steps as found in the AWS EC2 installation guide</a>
-
-Finally, start the server using 
-
-```zsh
-npm start
-```
-
-Or, for a prettified view of the live API logs, run
-
-```zsh
-npm run dev
-```
-
-The server will start at [http://localhost:4863](http://localhost:4863)
-
-### Installation on an AWS EC2 instance
-
-This guide assumes you'll have started the EC2 instance already. For a guide on how to do it please refer to [AWS's Documentation](https://docs.aws.amazon.com/quickstarts/latest/vmlaunch/step-1-launch-instance.html)
-
-#### Connect to EC2 instance
-
-1. Open an SSH client.
-2. Locate your private key file. The key used to launch this instance is key.pem
-3. Run this command, if necessary, to ensure your key is not publicly viewable.
-```zsh
- chmod 400 key.pem
-
-```
-Connect to your instance using its Public DNS:
-
-Example:
-
-```zsh
- ssh -i "key.pem" ubuntu@ec2-ip-address.eu-west-2.compute.amazonaws.com
-```
-
-#### Install mongodb
-
-
 Import the public key used by the package management system
 
 ```zsh
@@ -178,49 +138,55 @@ Enable service restart on every reboot
 sudo systemctl enable mongod
 ```
 
-#### Install Node and npm using nvm
 
-Install Node Version Manager
+Finally, start the server using 
 
 ```zsh
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+npm start
 ```
 
+Or, for a prettified view of the live API logs, run
+
 ```zsh
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+npm run dev
 ```
 
-Install latest version of Node.js and npm
+The server will start at [http://localhost:4863](http://localhost:4863)
+
+### Installation on an AWS EC2 instance
+
+This guide assumes you'll have started the EC2 instance already. For a guide on how to do it please refer to [AWS's Documentation](https://docs.aws.amazon.com/quickstarts/latest/vmlaunch/step-1-launch-instance.html)
+
+#### Connect to EC2 instance
+
+1. Open an SSH client.
+2. Locate your private key file. The key used to launch this instance is key.pem
+3. Run this command, if necessary, to ensure your key is not publicly viewable.
+```zsh
+ chmod 400 key.pem
+```
+Connect to your instance using its Public DNS:
+
+Example:
 
 ```zsh
-nvm install node
+ ssh -i "key.pem" ubuntu@ec2-ip-address.eu-west-2.compute.amazonaws.com
 ```
 
-#### Clone repository with Github CLI
+#### Install docker and docker-compose
 
-Debian / Linux:
-
+For docker use
 
 ```zsh
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-sudo apt-add-repository https://cli.github.com/packages
-sudo apt update
-sudo apt install gh
+sudo snap install docker
 ```
 
-For other OSs refer to the [official documentation](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
+For docker-compose follow instructions [here](https://docs.docker.com/compose/install/#prerequisites)
 
-Login into Github
-
-```zsh
-gh auth login
-```
-
-Clone the repository
+#### Build Docker image and run it
 
 ```zsh
-gh repo clone 6CCS3PRJ/server
+sudo docker-compose up --build
 ```
 
 #### Initialise Repository

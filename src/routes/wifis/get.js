@@ -67,8 +67,7 @@ async function reloadFeatureCache(req, res, next) {
                         //moving county at the end of the array. It's likely that the next feature will be the same one
                         features.push(features.splice(features.indexOf(county), 1)[0]);
                     }
-                    features[Math.floor(Math.random() * features.length)].positivesCount =
-                        features[Math.floor(Math.random() * features.length)].positivesCount === undefined ? 1 : (features[Math.floor(Math.random() * features.length)].positivesCount + 1) ?? 1;
+                    county.positivesCount = county.positivesCount === undefined ? 1 : (county.positivesCount + 1) ?? 1;
                     break;
                 }
             }
@@ -87,21 +86,23 @@ async function reloadFeatureCache(req, res, next) {
                     //moving county at the end of the array. It's likely that the next feature will be the same one
                     features.push(features.splice(features.indexOf(county), 1)[0]);
                     county.accessPointsCount =
-                        county.accessPointsCount === undefined ? 1 : county.accessPointsCount + 1;
+                        county.accessPointsCount === undefined ? 1 : county.accessPointsCount + 1 ?? 0;
                     break;
                 }
             }
         }
         bar1.stop();
 
-        let featureInsert = features.map((f) => ({ feature: f, 
+        let featureInsert = features.map((f) => ({
+            feature: f,
             positivesCount: f.positivesCount ?? 0,
-             accessPointsCount: f.accessPointsCount ?? 0  }));
-        try { 
+            accessPointsCount: f.accessPointsCount ?? 0
+        }));
+        try {
             await Feature.collection.drop();
-         }
-        catch (err){
-            if(err.codeName !== "NamespaceNotFound"){
+        }
+        catch (err) {
+            if (err.codeName !== "NamespaceNotFound") {
                 throw err;
             }
         }
