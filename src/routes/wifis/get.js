@@ -1,6 +1,7 @@
 const express = require("express");
 const Wifi = require("../../models/wifi");
 const Scan = require("../../models/scan");
+const WifiCount = require("../../models/wifiCount");
 const Feature = require("../../models/feature");
 const d3 = require("d3");
 const axios = require("axios").default;
@@ -10,7 +11,9 @@ const { feature } = require("topojson-client");
 function getGetRoutes() {
     const router = express.Router();
     router.get("/reloadFeatureCache", reloadFeatureCache);
+    router.get("/reloadHeatmapData", reloadHeatmapData)
     router.get("/features", features);
+    router.get("/scanCounts", scanCounts);
     return router;
 }
 
@@ -22,19 +25,8 @@ function getGetRoutes() {
  */
 async function reloadFeatureCache(req, res, next) {
     try {
-        let accessPoints = await Wifi.find().lean();
-        accessPoints = accessPoints.map((ap) => {
-            ap.bssid = ap.bssid
-                .toLowerCase()
-                .split("")
-                .reduce(
-                    (a, e, i) => a + e + (i % 2 === 1 && i !== ap.bssid.length - 1 ? ":" : ""),
-                    ""
-                ); //make AABBCCDDEE in aa:bb:cc:dd:ee
-            return ap;
-        });
-        const bssids = accessPoints.map((ap) => ap.bssid);
-        const scanResult = await Scan.find({ b: { $in: bssids } }).lean();
+
+        let [accessPoints, scanResult] = await getScansWithAPs();
 
         const scans = [];
 
@@ -71,8 +63,8 @@ async function reloadFeatureCache(req, res, next) {
                         //moving county at the end of the array. It's likely that the next feature will be the same one
                         features.push(features.splice(features.indexOf(county), 1)[0]);
                     }
-                    county.positivesCount =
-                        county.positivesCount === undefined ? 1 : county.positivesCount + 1 ?? 1;
+                    county.properties.positivesCount =
+                        county.properties.positivesCount === undefined ? 1 : county.properties.positivesCount + 1 ?? 1;
                     break;
                 }
             }
@@ -91,21 +83,17 @@ async function reloadFeatureCache(req, res, next) {
                 if (d3.geoContains(county, [ap?.lng, ap?.lat])) {
                     //moving county at the end of the array. It's likely that the next feature will be the same one
                     features.push(features.splice(features.indexOf(county), 1)[0]);
-                    county.accessPointsCount =
-                        county.accessPointsCount === undefined
+                    county.properties.accessPointsCount =
+                        county.properties.accessPointsCount === undefined
                             ? 1
-                            : county.accessPointsCount + 1 ?? 0;
+                            : county.properties.accessPointsCount + 1 ?? 0;
                     break;
                 }
             }
         }
         progressBar.stop();
 
-        let featureInsert = features.map((f) => ({
-            feature: f,
-            positivesCount: f.positivesCount ?? 0,
-            accessPointsCount: f.accessPointsCount ?? 0,
-        }));
+
         try {
             await Feature.collection.drop();
         } catch (err) {
@@ -113,7 +101,10 @@ async function reloadFeatureCache(req, res, next) {
                 throw err;
             }
         }
-        Feature.insertMany(featureInsert, (err, data) => {
+        Feature.insertMany([{
+            type: "FeatureCollection",
+            features
+        }], (err, data) => {
             if (err) {
                 throw err;
             } else {
@@ -135,12 +126,12 @@ async function features(req, res, next) {
     try {
         let features = await Feature.find().lean();
         features = features.map((f) => {
-            f.feature.positivesCount = f.positivesCount;
-            f.feature.accessPointsCount = f.accessPointsCount;
-            return f.feature;
+            f.positivesCount = f.positivesCount ?? 0;
+            f.accessPointsCount = f.accessPointsCount ?? 0;
+            return f;
         });
 
-        res.status(200).json(features);
+        res.status(200).json(features[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -159,5 +150,76 @@ function getFeatures(geographies) {
         .features;
     return feats;
 }
+
+/**
+ * Get list of all wifis that have scans, and how many they have. Used for heatmaps
+ * @route GET /wifis/get/scanCounts
+ * @group wifis - Operations about wifis
+ * @returns {Response.model} 200 - Success
+ */
+async function scanCounts(req, res, next) {
+    try {
+      
+        res.status(200).json(await WifiCount.find().lean());
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const reloadHeatmapData = async (req, res, next) => {
+    try {
+        let [accessPoints, scanResult] = await getScansWithAPs();
+        console.log("Fetched data")
+        const result = []
+        const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+        progressBar.start(accessPoints.length, 0);
+        for (let i = 0; i < accessPoints.length; i++) {
+            progressBar.increment()
+            const ap = accessPoints[i];
+            ap.count = scanResult.filter(s => s.b === ap.bssid).length;
+            if (ap.count > 0) {
+                ap.lat = parseFloat(ap.lat).toFixed(4)
+                ap.lng = parseFloat(ap.lng).toFixed(4)
+                result.push(ap)
+            }
+        }
+        progressBar.stop()
+        try {
+            await WifiCount.collection.drop();
+        } catch (err) {
+            if (err.codeName !== "NamespaceNotFound") {
+                throw err;
+            }
+        }
+        WifiCount.insertMany(result, (err, data) => {
+            if (err) {
+                throw err;
+            } else {
+                res.status(200).json({ message: "success" });
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const getScansWithAPs = async (wifiLimit = 200000) => {
+    let accessPoints = await Wifi.find().limit(wifiLimit).lean();
+    accessPoints = accessPoints.map((ap) => {
+        ap.bssid = ap.bssid.toString()
+            .toLowerCase()
+            .split("")
+            .reduce(
+                (a, e, i) => a + e + (i % 2 === 1 && i !== ap.bssid.length - 1 ? ":" : ""),
+                ""
+            ); //make AABBCCDDEE in aa:bb:cc:dd:ee
+        return ap;
+    });
+    const bssids = accessPoints.map((ap) => ap.bssid);
+    const scanResult = await Scan.find({ b: { $in: bssids } }).lean();
+
+    return [accessPoints, scanResult];
+}
+
 
 module.exports = { getGetRoutes };
