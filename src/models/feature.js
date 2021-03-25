@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
 
 const featureSchema = new mongoose.Schema({
-    feature: {
+    features: {
         type: Object,
-        required: true,
+        required: true
     },
-    positivesCount: {
-        type: Number,
-        required: false,
-    },
-    accessPointsCount: {
-        type: Number,
-        required: false,
-    },
+    type: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model("feature", featureSchema);
