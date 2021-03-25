@@ -45,13 +45,6 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
             : process.env.CLIENT_ORIGIN_URL;
 
     app.use(cors());
-    app.use(
-        /(^(?!(\/api\/extension))|\/api\/extension\/get\/extensionToken).*/,
-        cors({
-            credentials: true,
-            origin: [clientOrigin],
-        })
-    );
 
     //can be used by load balance to check status of the instance
     app.get("/alive", (req, res, next) => {
