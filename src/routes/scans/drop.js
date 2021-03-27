@@ -16,7 +16,7 @@ function getDropRoutes() {
  */
 const all = async (req, res, next) => {
     try {
-        Scan.remove({}, (err, data) => {
+        Scan.deleteMany({}, (err, data) => {
             if (err) {
                 throw err;
             } else {
