@@ -34,16 +34,8 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
     if (process.env.NODE_ENV !== "production") {
         initialiseSwagger();
     }
-
     app.use(rateLimiter);
-
     app.use(helmet());
-
-    const clientOrigin =
-        process.env.NODE_ENV === "production"
-            ? process.env.CLIENT_ORIGIN_URL_PRODUCTION
-            : process.env.CLIENT_ORIGIN_URL;
-
     app.use(cors());
 
     //can be used by load balance to check status of the instance
