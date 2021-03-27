@@ -7,20 +7,17 @@
 const express = require("express");
 require("express-async-errors");
 const mongoose = require("mongoose");
-
+const fetch = require("fetch").fetchUrl
 const { logger, expressLogger } = require("./logger");
 logger.info("===== STARTING MAIN SERVER =====");
-
 const { getRoutes } = require("./routes");
 const app = express();
 const cli = require("./cli");
 const compression = require("compression");
-
 let expressSwagger;
 if (process.env.NODE_ENV !== "production") {
     expressSwagger = require("express-swagger-generator")(app);
 }
-
 // Middleware-s
 const cors = require("cors");
 const helmet = require("helmet");
@@ -73,16 +70,27 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
     mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = mongoose.connection;
 
-    db.on("open", () => logger.info("Connected database"));
+    db.on("open", () => {
+        logger.info("Connected database")
+
+        //load first cache for data
+        fetch(`http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadFeatureCache`, (err, data) => {
+            if (err) {
+                console.log(err)
+            }
+        });
+        fetch(`http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadHeatmapData`, (err, data) => {
+            if (err) {
+                console.log(err)
+            }
+        })
+    });
 
     // Must be last
     app.use(genericErrorMiddleware);
 
     return new Promise((resolve) => {
         const server = app.listen(port, () => {
-            if (process.env.NODE_ENV === "production") {
-                process.send("ready"); //notify PM2
-            }
             logger.info(`Listening on port ${server.address().port}`);
 
             // this block of code turns `server.close` into a promise API
@@ -115,7 +123,7 @@ process.on("uncaughtException", (err, origin) => {
     logger.error(`Uncaught Exception: origin:${origin}, error: ${err}, trace: ${err.stack}`);
     logger.warn(
         `Server may be unstable after an uncaught exception. Please restart server ` +
-            `by typing: 'stop', 'exit', and then 'npm start'.`
+        `by typing: 'stop', 'exit', and then 'npm start'.`
     );
 });
 
