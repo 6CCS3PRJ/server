@@ -4,7 +4,6 @@ const Scan = require("../../models/scan");
 function getDropRoutes() {
     const router = express.Router();
     router.post("/all", all);
-    router.post("/purgeOld", purgeOld)
     return router;
 }
 
