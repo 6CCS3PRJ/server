@@ -95,7 +95,7 @@ async function reloadFeatureCache(req, res, next) {
 
 
         try {
-            await Feature.collection.drop();
+            await Feature.remove();
         } catch (err) {
             if (err.codeName !== "NamespaceNotFound") {
                 throw err;
@@ -185,7 +185,7 @@ const reloadHeatmapData = async (req, res, next) => {
         }
         progressBar.stop()
         try {
-            await WifiCount.collection.drop();
+            await WifiCount.remove();
         } catch (err) {
             if (err.codeName !== "NamespaceNotFound") {
                 throw err;

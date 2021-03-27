@@ -17,10 +17,9 @@ function getInsertRoutes() {
  * @group scans - Operations about scans
  * @param {boolean} d - true if the upload is a dummy
  * @param {string} token - token
- * @param {JSON} scans - array of scan objects to be inserted directly into scans collection
+ * @param {Array} scans - array of scan objects to be inserted directly into scans collection
+ * @param {Array} wifis - array of wifi objects to be used to update wifi locations
  * @returns {Response.model} 200 - Success
- * @returns {Error.model} 403 - Unauthorized
- * @security JWT
  */
 const newScans = async (req, res, next) => {
     try {
@@ -34,16 +33,16 @@ const newScans = async (req, res, next) => {
         } else {
             if (req.body.token === "Jt(I9}SFd~|.}c^ZN?(4y8m?aI0~-b") {
                 //todo remove this for release
-                await Scan.collection.insertMany(
+                await Scan.insertMany(
                     req.body.scans.map((s) => {
-                        delete s.d;
+                        delete s.d; //remove dummy value
                         return s;
                     })
                 );
                 if (req.body.wifis?.length > 0) {
                     updateWifiLocations(req.body.wifis);
                 }
-                await Upload.collection.insertOne({ timestamp: new Date() });
+                await Upload.create({});
                 res.status(200).json({ message: "completed" });
                 return;
             }
@@ -54,7 +53,7 @@ const newScans = async (req, res, next) => {
                     return;
                 }
 
-                await Scan.collection.insertMany(
+                await Scan.insertMany(
                     req.body.scans.map((s) => {
                         delete s.d;
                         return s;
@@ -62,8 +61,8 @@ const newScans = async (req, res, next) => {
                 );
                 if (req.body.wifis?.length > 0) {
                     updateWifiLocations(req.body.wifis);
-                }
-                await Upload.collection.insertOne({ timestamp: new Date() });
+                }   
+                await Upload.create({});
                 res.status(200).json({ message: "completed" });
             });
         }
@@ -72,6 +71,10 @@ const newScans = async (req, res, next) => {
     }
 };
 
+/**
+ * Use array of wifis to update the accuracy of their coordinates on the database.
+ * @param {Array} wifis - array of wifi objects to be used to update wifi locations
+ */
 const updateWifiLocations = async (wifis) => {
     const bssids = wifis.map((wifi) => wifi.bssid);
 
@@ -102,8 +105,12 @@ const updateWifiLocations = async (wifis) => {
         })
     );
 };
-
-// https://gist.github.com/tlhunter/0ea604b77775b3e7d7d25ea0f70a23eb
+/**
+ * Return the average lat and lng of an array of wifis. Uses Haversine formula.
+ * Taken from https://gist.github.com/tlhunter/0ea604b77775b3e7d7d25ea0f70a23eb
+ * @param {Array} wifis wifi array input. objects with lat and lng
+ * @returns 
+ */
 function averageGeolocation(wifis) {
     if (wifis.length === 1) {
         return wifis[0];

@@ -4,20 +4,20 @@ const Scan = require("../../models/scan");
 function getDropRoutes() {
     const router = express.Router();
     router.post("/all", all);
+    router.post("/purgeOld", purgeOld)
     return router;
 }
 
 /**
- * Remove all scans from scans collection
+ * Remove all scans from scans collection.
+ * Used for development
  * @route GET /scans/drop/all
  * @group scans - Operations about scans
  * @returns {Response.model} 200 - Success
- * @returns {Error.model} 403 - Unauthorized
- * @security JWT
  */
 const all = async (req, res, next) => {
     try {
-        Scan.collection.drop({}, (err, data) => {
+        Scan.remove({}, (err, data) => {
             if (err) {
                 throw err;
             } else {
