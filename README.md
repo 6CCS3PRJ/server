@@ -8,7 +8,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/6CCS3PRJ/server">
+  <a href="https://github.com/wifi-tracing/server">
     <img src="docs/icon.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -17,7 +17,7 @@
   <p align="center">
     Web server for a WiFi based contact tracing application, developed as part of <a href="https://github.com/danilo-delbusso"><b>@danilo-delbusso</b></a>'s a final year project
     <br />
-    <a href="https://github.com/6CCS3PRJ/server/issues">Report Bug</a>
+    <a href="https://github.com/wifi-tracing/server/issues">Report Bug</a>
   </p>
 </p>
 
@@ -103,7 +103,7 @@ And that's it! The server is running on `localhost:4683`
 This installation is suggested for development.
 
 ```zsh
-git clone https://github.com/6CCS3PRJ/server.git
+git clone https://github.com/wifi-tracing/server.git
 ```
 
 Then download all dependencies
@@ -236,7 +236,7 @@ their [official documentation](https://pm2.keymetrics.io/docs/usage/pm2-doc-sing
 
 ## Roadmap
 
-See the [open issues](https://github.com/6CCS3PRJ/server/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/wifi-tracing/server/issues) for a list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -264,25 +264,25 @@ Danilo Del Busso - [@danilo_delbusso](https://twitter.com/danilo_delbusso)
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/6CCS3PRJ/server.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/wifi-tracing/server.svg?style=for-the-badge
 
-[contributors-url]: https://github.com/6CCS3PRJ/server/graphs/contributors
+[contributors-url]: https://github.com/wifi-tracing/server/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/6CCS3PRJ/server.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/wifi-tracing/server.svg?style=for-the-badge
 
-[forks-url]: https://github.com/6CCS3PRJ/server/network/members
+[forks-url]: https://github.com/wifi-tracing/server/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/6CCS3PRJ/server.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/wifi-tracing/server.svg?style=for-the-badge
 
-[stars-url]: https://github.com/6CCS3PRJ/server/stargazers
+[stars-url]: https://github.com/wifi-tracing/server/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/6CCS3PRJ/server.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/wifi-tracing/server.svg?style=for-the-badge
 
-[issues-url]: https://github.com/6CCS3PRJ/server/issues
+[issues-url]: https://github.com/wifi-tracing/server/issues
 
-[license-shield]: https://img.shields.io/github/license/6CCS3PRJ/server.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/wifi-tracing/server.svg?style=for-the-badge
 
-[license-url]: https://github.com/6CCS3PRJ/server/blob/master/LICENSE.txt
+[license-url]: https://github.com/wifi-tracing/server/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 
