@@ -1,11 +1,10 @@
 {
   "name": "prj-server",
   "version": "0.3.2",
-  "description": "REST API Node.js and MongoDB server for ingestion of contact tracing data.",
+  "description": "REST API server for a WiFi-based contact tracing application developed as part of @danilo-delbusso 's final year project.",
   "main": "index.js",
   "scripts": {
     "start": "DEBUG=prj-server:* nodemon node ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npx husky install",
     "prettier": "npx prettier --write .",
     "readme": "node ./node_modules/.bin/node-readme",
@@ -16,7 +15,7 @@
     "url": "git+https://github.com/danilo-delbusso/prj-server.git"
   },
   "author": "Danilo Del Busso",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/danilo-delbusso/prj-server/issues"
   },
