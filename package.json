@@ -1,6 +1,6 @@
 {
   "name": "prj-server",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "REST API server for a WiFi-based contact tracing application developed as part of @danilo-delbusso 's final year project.",
   "main": "index.js",
   "scripts": {
