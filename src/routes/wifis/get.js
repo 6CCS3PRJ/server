@@ -23,7 +23,7 @@ function getGetRoutes() {
  * @group wifis - Operations about Wireless Access Points
  * @returns {Response.model} 200
  */
-async function reloadFeatureCache(req, res, next) {
+async function reloadFeatureCache(req, res) {
   try {
     let [accessPoints, scanResult] = await getScansWithAPs()
 
@@ -111,7 +111,7 @@ async function reloadFeatureCache(req, res, next) {
           features
         }
       ],
-      (err, data) => {
+      (err) => {
         if (err) {
           throw err
         } else {
@@ -130,7 +130,7 @@ async function reloadFeatureCache(req, res, next) {
  * @group wifis - Operations about Wireless Access Points
  * @returns {Response.model} 200
  */
-const reloadHeatmapData = async (req, res, next) => {
+const reloadHeatmapData = async (req, res) => {
   try {
     let [accessPoints, scanResult] = await getScansWithAPs()
 
@@ -163,7 +163,7 @@ const reloadHeatmapData = async (req, res, next) => {
       }
     }
     //insert new calculations
-    WifiCount.insertMany(result, (err, data) => {
+    WifiCount.insertMany(result, (err) => {
       if (err) {
         throw err
       } else {
@@ -181,7 +181,7 @@ const reloadHeatmapData = async (req, res, next) => {
  * @group wifis - Operations about Wireless Access Points
  * @returns {Response.model} 200 - Success
  */
-async function scanCounts(req, res, next) {
+async function scanCounts(req, res) {
   try {
     res.status(200).json(await WifiCount.find().lean())
   } catch (error) {
@@ -195,7 +195,7 @@ async function scanCounts(req, res, next) {
  * @group wifis - Operations about Wireless Access Points
  * @returns {Response.model} 200 - array of features
  */
-async function features(req, res, next) {
+async function features(req, res) {
   try {
     let features = await Feature.find().lean()
     features = features.map((f) => {

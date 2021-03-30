@@ -21,7 +21,7 @@ function getInsertRoutes() {
  * @param {Array} wifis - array of wifi objects to be used to update wifi locations
  * @returns {Response.model} 200 - Success
  */
-const newScans = async (req, res, next) => {
+const newScans = async (req, res) => {
   try {
     if (req.body.d && req.body.d == true) {
       //dummy upload and dummy response
@@ -47,7 +47,7 @@ const newScans = async (req, res, next) => {
         return
       }
 
-      jwt.verify(req.body?.token, process.env.TOKEN_KEY, async (err, data) => {
+      jwt.verify(req.body?.token, process.env.TOKEN_KEY, async (err) => {
         if (err) {
           res.status(401).json({ message: "completed" })
           return

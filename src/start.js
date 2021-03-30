@@ -36,7 +36,7 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
   app.use(cors())
 
   //can be used by load balance to check status of the instance
-  app.get("/alive", (req, res, next) => {
+  app.get("/alive", (req, res) => {
     res.status(200).send("OK")
   })
 
@@ -62,7 +62,7 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
 
   app.use(process.env.API_PREFIX || "/api/v1/", getRoutes())
 
-  app.use("*", (req, res, next) => {
+  app.use("*", (req, res) => {
     res.status(404).send("404 - Not Found")
   })
 
@@ -79,7 +79,7 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
     //load first cache for data
     fetch(
       `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadFeatureCache`,
-      (err, data) => {
+      (err) => {
         if (err) {
           console.log(err)
         }
@@ -87,7 +87,7 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
     )
     fetch(
       `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadHeatmapData`,
-      (err, data) => {
+      (err) => {
         if (err) {
           console.log(err)
         }

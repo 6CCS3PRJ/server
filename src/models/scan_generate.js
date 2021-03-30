@@ -20,7 +20,7 @@ const generate = (count, filename = "test.json") => {
 
   const start = " ["
   fs.writeFileSync(filename, start)
-  for (i = 1; i < count; i++) {
+  for (let i = 1; i < count; i++) {
     fs.appendFileSync(filename, getRandomScan() + ",")
     progressBar.increment()
   }

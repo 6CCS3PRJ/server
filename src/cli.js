@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /**
  * This module allows other modules to register what happens when a certain command
  * is entered into the STDIN of this program. When a valid command is entered, all

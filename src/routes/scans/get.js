@@ -14,7 +14,7 @@ function getGetRoutes() {
  * @route GET /scans/get/uploadStats
  * @group scans - Operations about scans
  */
-async function uploadStats(req, res, next) {
+async function uploadStats(req, res) {
   const DAYS_FILTER = 14
   try {
     //only get last 14 days
@@ -62,7 +62,7 @@ async function uploadStats(req, res, next) {
  * @param {Array} BSSIDs - array of BSSID string to use to retrieve matches in the scans collection
  * @returns {Response.model} 200 - Success
  */
-async function matchBSSID(req, res, next) {
+async function matchBSSID(req, res) {
   try {
     const scans = await Scan.find({ b: { $in: req.body.BSSIDs } })
     res.status(200).send(scans)

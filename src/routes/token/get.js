@@ -14,7 +14,7 @@ function getGetRoutes() {
  * @group token - operations about tokens
  * @returns {Response.model} 200 - the JWT token in the form of a string
  */
-async function newToken(req, res, next) {
+async function newToken(req, res) {
   const token = jwt.sign({ type: "uploadToken" }, process.env.TOKEN_KEY, {
     expiresIn: process.env.TOKEN_EXPIRATION_TIME
   })
@@ -27,7 +27,7 @@ async function newToken(req, res, next) {
  * @group token - operations about tokens
  * @returns {Response.model} 200 - the JWT token in the form of a string
  */
-async function checkToken(req, res, next) {
+async function checkToken(req, res) {
   jwt.verify(req.query.token, process.env.TOKEN_KEY, function (err, decoded) {
     if (err) {
       res.status(401).send(err)

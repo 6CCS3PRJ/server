@@ -16,9 +16,9 @@ function getDropRoutes() {
  * @group scans - Operations about scans
  * @returns {Response.model} 200 - Success
  */
-const all = async (req, res, next) => {
+const all = async (req, res) => {
   try {
-    Scan.deleteMany({}, (err, data) => {
+    Scan.deleteMany({}, (err) => {
       if (err) {
         throw err
       } else {

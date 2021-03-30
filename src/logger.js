@@ -97,7 +97,6 @@ const expressPinoConfig = {
     },
 
     res: (res) => {
-      const req = res.raw.req
       const data = {
         code: res.statusCode,
         statusMessage: res.raw?.statusMessage,
