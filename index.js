@@ -1,8 +1,8 @@
-const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, ".env") });
+const path = require("path")
+require("dotenv").config({ path: path.join(__dirname, ".env") })
 
 if (process.env.NODE_ENV === "production") {
-    require("./src");
+  require("./src")
 } else {
-    require("nodemon")({ script: "dev.js" });
+  require("nodemon")({ script: "dev.js" })
 }

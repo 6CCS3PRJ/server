@@ -21,7 +21,6 @@
   </p>
 </p>
 
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
@@ -78,8 +77,8 @@ To get a local copy up and running follow these simple steps.
 
 Installation for this project are described for linux. For other operating systems, please refer to the links provided.
 
-* [Node.js](https://nodejs.org/en/)
-* [npm](http://npmjs.com/)
+- [Node.js](https://nodejs.org/en/)
+- [npm](http://npmjs.com/)
 
 It is suggested to install Node.js and npm using [nvm](https://github.com/nvm-sh/nvm#install--update-script).
 
@@ -202,7 +201,7 @@ sudo docker-compose up --build
 npm i
 ```
 
-The .env file is added for simplicity's sake. But it is important to  **CHANGE THE VALUES** for security reasons.
+The .env file is added for simplicity's sake. But it is important to **CHANGE THE VALUES** for security reasons.
 
 This is an overview of the used .env values:
 
@@ -238,7 +237,6 @@ their [official documentation](https://pm2.keymetrics.io/docs/usage/pm2-doc-sing
 
 See the [open issues](https://github.com/wifi-tracing/server/issues) for a list of proposed features (and known issues).
 
-
 <!-- CONTRIBUTING -->
 
 ## Contributing
@@ -268,25 +266,14 @@ Danilo Del Busso - [@danilo_delbusso](https://twitter.com/danilo_delbusso)
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/wifi-tracing/server.svg?style=for-the-badge
-
 [contributors-url]: https://github.com/wifi-tracing/server/graphs/contributors
-
 [forks-shield]: https://img.shields.io/github/forks/wifi-tracing/server.svg?style=for-the-badge
-
 [forks-url]: https://github.com/wifi-tracing/server/network/members
-
 [stars-shield]: https://img.shields.io/github/stars/wifi-tracing/server.svg?style=for-the-badge
-
 [stars-url]: https://github.com/wifi-tracing/server/stargazers
-
 [issues-shield]: https://img.shields.io/github/issues/wifi-tracing/server.svg?style=for-the-badge
-
 [issues-url]: https://github.com/wifi-tracing/server/issues
-
 [license-shield]: https://img.shields.io/github/license/wifi-tracing/server.svg?style=for-the-badge
-
 [license-url]: https://github.com/wifi-tracing/server/blob/master/LICENSE.txt
-
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-
 [linkedin-url]: https://www.linkedin.com/in/danilo-delbusso/
