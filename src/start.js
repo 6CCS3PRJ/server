@@ -9,10 +9,9 @@ require("express-async-errors")
 const mongoose = require("mongoose")
 const fetch = require("fetch").fetchUrl
 const { logger, expressLogger } = require("./logger")
-logger.info("===== STARTING MAIN SERVER =====")
+logger.info("===== STARTING SERVER =====")
 const { getRoutes } = require("./routes")
 const app = express()
-const cli = require("./cli")
 const compression = require("compression")
 let expressSwagger
 if (process.env.NODE_ENV !== "production") {
@@ -67,7 +66,11 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
   })
 
   // Connect to database
-  mongoose.connect(process.env.DATABASE_URL, {
+  let databaseURL = process.env.DATABASE_URL || "mongodb://mongo:27017/prj"
+  if (process.env.DOCKER_ENV === "true" && process.env.DOCKER_DATABASE_URL) {
+    databaseURL = process.env.DOCKER_DATABASE_URL
+  }
+  mongoose.connect(databaseURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -75,24 +78,26 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
 
   db.on("open", () => {
     logger.info("Connected database")
-
-    //load first cache for data
-    fetch(
-      `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadFeatureCache`,
-      (err) => {
-        if (err) {
-          console.log(err)
+    if (process.env.CACHE_ON_STARTUP === "true") {
+      logger.info("Loading feature and heat-map cache.")
+      //load first cache for data
+      fetch(
+        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadFeatureCache`,
+        (err) => {
+          if (err) {
+            console.log(err)
+          }
         }
-      }
-    )
-    fetch(
-      `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadHeatmapData`,
-      (err) => {
-        if (err) {
-          console.log(err)
+      )
+      fetch(
+        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadHeatmapData`,
+        (err) => {
+          if (err) {
+            console.log(err)
+          }
         }
-      }
-    )
+      )
+    }
   })
 
   // Must be last
@@ -109,14 +114,6 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
           originalClose(resolveClose)
         })
       }
-
-      // this ensures that we properly close the server when the program exists
-      cli.registerCommand("stop", async () => {
-        logger.info("Stopping server...")
-        await server.close()
-        logger.info("Server stopped.")
-      })
-
       // resolve the whole promise with the express server
       resolve(server)
     })
@@ -133,8 +130,7 @@ process.on("uncaughtException", (err, origin) => {
     `Uncaught Exception: origin:${origin}, error: ${err}, trace: ${err.stack}`
   )
   logger.warn(
-    `Server may be unstable after an uncaught exception. Please restart server ` +
-      `by typing: 'stop', 'exit', and then 'npm start'.`
+    `Server may be unstable after an uncaught exception. Please restart server`
   )
 })
 
