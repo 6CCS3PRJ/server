@@ -21,20 +21,7 @@
   </p>
 </p>
 
-## Contents
-
-- [About The Project](#about-the-project)
-- [Installation](#installation)
-  - [Docker](#docker)
-  - [Local Installation](#local-installation)
-- [Configuration](#configuration)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Attributions](#attributions)
-
-# About The Project
+# ℹ About The Project
 
 This project contains a NodeJS based REST API to interface with the MongoDB backend provided for the WiFi contact
 tracing project.
@@ -48,9 +35,9 @@ the project has started.
   <img alt="" src="docs/screenshot-1.png" width="80%">
 </p>
 
-# Installation
+# 💽 Installation
 
-## Docker
+## 🐋 Docker
 
 This installation is the fastest, but requires [docker](https://docs.docker.com/engine/install/#server)
 and [docker-compose](https://docs.docker.com/compose/install/#prerequisites).
@@ -65,7 +52,7 @@ docker-compose up --build
 
 The API will be available at `http://localhost:4683`
 
-## Local Installation
+## 💻 Local Installation
 
 To install locally without the use of Docker you will need the following dependencies installed and configured on your system:
 
@@ -93,7 +80,7 @@ Or run without prettified logs
 npm start
 ```
 
-# Configuration
+# ⚙ Configuration
 
 This repository contains a pre-packaged configuration in the form of an .env file.
 
@@ -116,13 +103,13 @@ This is an overview of the used .env values:
 | CACHE_ON_STARTUP      | Load cached features and heat-map data when first starting | false                                                                                          |
 | GEOJSON_URL           | URL of the GEOJson feature collection used to cache data   | https://raw.githubusercontent.com/previsedigital/UK-GeoJSON/master/json/electoral/eng/wpc.json |
 
-# Roadmap
+# 🗺 Roadmap
 
 See the [open issues](https://github.com/wifi-tracing/server/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
-# Contributing
+# 💁 Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create.
 
@@ -131,17 +118,17 @@ project instead of opening new issues.
 
 <!-- LICENSE -->
 
-# License
+# ⚖ License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-# Contact
+# 🐦 Contact
 
 Danilo Del Busso - [@danilo_delbusso](https://twitter.com/danilo_delbusso)
 
-# Attributions
+# 🙏 Attributions
 
 <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
