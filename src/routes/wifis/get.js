@@ -126,7 +126,7 @@ async function reloadFeatureCache(req, res) {
 
 /**
  * Reload the cached heat-map data by computing number of times each Wireless Access Point is present on the Database
- * @route GET /wifis/get/reloadFeatureCache
+ * @route GET /wifis/get/reloadHeatmapData
  * @group wifis - Operations about Wireless Access Points
  * @returns {Response.model} 200
  */
