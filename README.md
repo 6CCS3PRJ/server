@@ -75,6 +75,24 @@ To install locally without the use of Docker you will need the following depende
 
 It is suggested to install Node.js and npm using [nvm](https://github.com/nvm-sh/nvm#install--update-script).
 
+Install local dependencies
+
+```bash
+npm install
+```
+
+Run with prettified logs
+
+```bash
+npm run dev
+```
+
+Or run without prettified logs
+
+```bash
+npm start
+```
+
 # Configuration
 
 This repository contains a pre-packaged configuration in the form of an .env file.
