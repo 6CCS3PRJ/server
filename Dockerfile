@@ -10,4 +10,9 @@ RUN npm ci --only=prod
 COPY . .
 
 EXPOSE 4683
+ENV DOCKER_ENV=true
+
+# generate feature and heat-map cache on first startup
+ENV CACHE_ON_STARTUP=true
+
 CMD [ "npm","run", "dev" ]
