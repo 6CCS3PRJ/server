@@ -1,3 +1,13 @@
+/**
+ * Logger based on pino. Contains logger level configuration and express logging
+ * settings.
+ *
+ * This module was initially written for a separate project by Luka Kralj and I
+ * and has been modified for the purposes of this project.
+ * @author Danilo Del Busso <danilo.delbusso1@gmail.com>
+ * @author Luka Kralj <luka.kralj.cs@gmail.com>
+ */
+
 const basicPino = require("pino")
 const dateFormat = require("dateformat")
 const fs = require("fs")
@@ -54,10 +64,7 @@ const expressPinoConfig = {
         authorisation: req.headers["authorization"]
       }
 
-      // If authorisation header starts with "Bearer" than it's likely a valid
-      // authorisation, truncate the token for security.
-      // If authorisation is something else, it's likely that someone has tried to
-      // hack us by guessing the authorisation format.
+      //JWT Authentication support
       if (
         data.authorisation &&
         data.authorisation.startsWith("Bearer") &&

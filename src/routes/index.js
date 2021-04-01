@@ -1,3 +1,13 @@
+/**
+ * Intialise main routing groups.
+ *
+ * This module and the ones it imports were initially written for a
+ * separate project by Luka Kralj and I and have been modified for
+ * the purposes of this project.
+ * @author Danilo Del Busso <danilo.delbusso1@gmail.com>
+ * @author Luka Kralj <luka.kralj.cs@gmail.com>
+ */
+
 const express = require("express")
 const { getScanRoutes } = require("./scans")
 const { getWifiRoutes } = require("./wifis")

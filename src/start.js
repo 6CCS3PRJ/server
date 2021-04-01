@@ -1,9 +1,13 @@
 /**
- * Most of the content of this file and the middleware files that are imported
- * have been built for another project. They are the mutual product of my work and
- * Luka Kralj's.
+ * API and Exposure Ingestion Service configuration.
+ * Initialises express router.
+ * Opens connection to MongoDB database.
+ *
+ * This module was initially written for a separate project by Luka Kralj and I
+ * and has been modified for the purposes of this project.
+ * @author Danilo Del Busso <danilo.delbusso1@gmail.com>
+ * @author Luka Kralj <luka.kralj.cs@gmail.com>
  */
-
 const express = require("express")
 require("express-async-errors")
 const mongoose = require("mongoose")
