@@ -5,7 +5,7 @@ const Wifi = require("../../models/wifi")
 
 const jwt = require("jsonwebtoken")
 
-function getInsertRoutes() {
+function getPostRoutes() {
   const router = express.Router()
   router.post("/new", newScans)
   return router
@@ -13,7 +13,7 @@ function getInsertRoutes() {
 
 /**
  * Insert an array of scans into the scans collection
- * @route POST /scans/insert/new
+ * @route POST /scans/post/new
  * @group scans - Operations about scans
  * @param {boolean} d - true if the upload is a dummy
  * @param {string} token - signed JWT for authentication
@@ -147,4 +147,4 @@ function averageGeolocation(aps) {
   }
 }
 
-module.exports = { getInsertRoutes }
+module.exports = { getPostRoutes }

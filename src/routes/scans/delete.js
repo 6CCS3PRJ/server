@@ -1,10 +1,10 @@
 const express = require("express")
 const Scan = require("../../models/scan")
 
-function getDropRoutes() {
+function getDeleteRoutes() {
   const router = express.Router()
   //todo: remove /all for production
-  router.post("/all", all)
+  router.delete("/all", all)
   return router
 }
 
@@ -12,7 +12,7 @@ function getDropRoutes() {
  * Remove all scans from scans collection.
  * Meant for development use.
  * Used for development
- * @route GET /scans/drop/all
+ * @route DELETE /scans/delete/all
  * @group scans - Operations about scans
  * @returns {Response.model} 200 - Success
  */
@@ -32,4 +32,4 @@ const all = async (req, res) => {
   }
 }
 
-module.exports = { getDropRoutes }
+module.exports = { getDeleteRoutes }

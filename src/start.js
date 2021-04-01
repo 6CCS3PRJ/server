@@ -86,7 +86,8 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
       logger.info("Loading feature and heat-map cache.")
       //load first cache for data
       fetch(
-        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadFeatureCache`,
+        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/patch/reloadFeatureCache`,
+        { method: "PATCH" },
         (err) => {
           if (err) {
             console.log(err)
@@ -94,7 +95,8 @@ function startServer({ port = process.env.PORT || 5000 } = {}) {
         }
       )
       fetch(
-        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/get/reloadHeatmapData`,
+        `http://localhost:${process.env.PORT}${process.env.API_PREFIX}wifis/patch/reloadHeatmapData`,
+        { method: "PATCH" },
         (err) => {
           if (err) {
             console.log(err)

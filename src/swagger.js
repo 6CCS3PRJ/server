@@ -16,7 +16,7 @@ let options = {
     host: `${process.env.DOMAIN}:${process.env.PORT}`,
     basePath: process.env.API_PREFIX,
     produces: ["application/json", "application/xml"],
-    schemes: ["http", "https"]
+    schemes: ["http"]
   },
   basedir: __dirname, //app absolute path
   files: ["./routes/**/*.js"] //Path to the API handle folder
