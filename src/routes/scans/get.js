@@ -13,6 +13,7 @@ function getGetRoutes() {
  * Get stats about uploaded scans of the last 14 days
  * @route GET /scans/get/uploadStats
  * @group scans - Operations about scans
+ * @returns {Response.model} 200 - Success
  */
 async function uploadStats(req, res) {
   const DAYS_FILTER = 14

@@ -10,8 +10,7 @@ function getDeleteRoutes() {
 
 /**
  * Remove all scans from scans collection.
- * Meant for development use.
- * Used for development
+ * Meant for development use only.
  * @route DELETE /scans/delete/all
  * @group scans - Operations about scans
  * @returns {Response.model} 200 - Success

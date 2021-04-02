@@ -26,7 +26,7 @@ function getRoutes() {
  */
 /**
  * @typedef Response
- * @property {[integer]} code.required
+ * @property {string} message.required - the success or error message
  */
 
 module.exports = { getRoutes }
