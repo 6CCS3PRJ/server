@@ -18,9 +18,10 @@ function getGetRoutes() {
 async function uploadStats(req, res) {
   const DAYS_FILTER = 14
   try {
+    const d = new Date(new Date().getTime() - DAYS_FILTER * 24 * 60 * 60 * 1000)
     //only get last 14 days
     const uploads = await Upload.find({
-      timestamp: {
+      createdAt: {
         $gte: new Date(new Date().getTime() - DAYS_FILTER * 24 * 60 * 60 * 1000)
       }
     }).lean()
@@ -29,7 +30,7 @@ async function uploadStats(req, res) {
 
     for (let i = 0; i < uploads.length; i++) {
       const scan = uploads[i]
-      const timestamp = new Date(scan.timestamp)
+      const timestamp = new Date(scan.createdAt)
       timestamp.setHours(0, 0, 0, 0)
       if (dateMap[timestamp]) {
         dateMap[timestamp]++
