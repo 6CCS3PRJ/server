@@ -1,4 +1,4 @@
-FROM node:current-alpine3.13
+FROM keymetrics/pm2:latest-alpine
 
 WORKDIR /usr/6CCS3PRJ/server/
 
@@ -15,4 +15,5 @@ ENV DOCKER_ENV=true
 # generate feature and heat-map cache on first startup
 ENV CACHE_ON_STARTUP=true
 
-CMD [ "npm","run", "dev" ]
+CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+

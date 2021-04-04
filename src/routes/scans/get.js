@@ -18,7 +18,6 @@ function getGetRoutes() {
 async function uploadStats(req, res) {
   const DAYS_FILTER = 14
   try {
-    const d = new Date(new Date().getTime() - DAYS_FILTER * 24 * 60 * 60 * 1000)
     //only get last 14 days
     const uploads = await Upload.find({
       createdAt: {
