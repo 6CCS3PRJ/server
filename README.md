@@ -80,6 +80,12 @@ Or run without prettified logs
 npm start
 ```
 
+Or run using [PM2](https://www.npmjs.com/package/pm2)
+
+```bash
+pm2 start
+```
+
 # ⚙ Configuration
 
 This repository contains a pre-packaged configuration in the form of an .env file.
@@ -102,6 +108,10 @@ This is an overview of the used .env values:
 | DEV_UPLOAD_TOKEN      | A special token that bypasses token validation             | Jt(I9}SFd\~\|.}c^ZN?(4y8m?aI0\~-b                                                              |
 | CACHE_ON_STARTUP      | Load cached features and heat-map data when first starting | false                                                                                          |
 | GEOJSON_URL           | URL of the GEOJson feature collection used to cache data   | https://raw.githubusercontent.com/previsedigital/UK-GeoJSON/master/json/electoral/eng/wpc.json |
+
+## 👷 PM2
+
+The Server runs on the [PM2](https://www.npmjs.com/package/pm2) process manager. By default it will use **all** the cores available to it. To change this option, modify the `instances` property in the `ecosystem.config.js` file to the number of cores you want (e.g. `instances : 1`).
 
 # 🗺 Roadmap
 

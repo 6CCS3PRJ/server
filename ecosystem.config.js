@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "WiFi Tracing Server",
-      script: "index.js",
+      script: "npm run dev",
       instances: "max",
       kill_timeout: 30000,
       env: {
